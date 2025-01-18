@@ -23,7 +23,7 @@ console.log(process.env.PORT_PEDIDO)
 app.get('/pedidos', async (req, res) => {
   try {
 
-    const response = await axios.get(`http://localhost:${process.env.PORT_PEDIDO}/pedidos`);  // Cambiado localhost a pedido-service
+    const response = await axios.get(`http://pedido-service:${process.env.PORT_PEDIDO}/pedidos`);  // Cambiado localhost a pedido-service
     res.json(response.data);
   } catch (error) {
     console.error('Error al obtener los pedidos:', error);
