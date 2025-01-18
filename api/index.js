@@ -2,6 +2,9 @@ import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import axios from 'axios';
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 // Crear la app de Express
 const app = express();
@@ -14,11 +17,13 @@ app.use(morgan('combined'));
 
 // Middleware para parsear el cuerpo de las peticiones en formato JSON
 app.use(express.json());
-
+console.log("....PEDIDO....")
+console.log(process.env.PORT_PEDIDO)
 // Ruta para obtener todos los pedidos
 app.get('/pedidos', async (req, res) => {
   try {
-    const response = await axios.get('http://pedido-service:5001/pedidos');  // Cambiado localhost a pedido-service
+
+    const response = await axios.get(`http://localhost:${process.env.PORT_PEDIDO}/pedidos`);  // Cambiado localhost a pedido-service
     res.json(response.data);
   } catch (error) {
     console.error('Error al obtener los pedidos:', error);
@@ -30,7 +35,7 @@ app.get('/pedidos', async (req, res) => {
 app.get('/pedido/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const response = await axios.get(`http://pedido-service:5001/pedido/${id}`);  // Cambiado localhost a pedido-service
+    const response = await axios.get(`http://pedido-service:${process.env.PORT_PEDIDO}/pedido/${id}`);  // Cambiado localhost a pedido-service
     res.json(response.data);
   } catch (error) {
     console.error(`Error al obtener el pedido con ID ${id}:`, error);
@@ -39,7 +44,8 @@ app.get('/pedido/:id', async (req, res) => {
 });
 
 // Configuración del puerto
-const port = 3000;
+const port = process.env.PORT_API;
+
 app.listen(port, () => {
   console.log(`API Gateway corriendo en http://localhost:${port}`);
 });

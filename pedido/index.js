@@ -2,6 +2,9 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 // Crear la app de Express
 const app = express();
@@ -61,7 +64,8 @@ app.post('/pedido', (req, res) => {
 
 
 // Configuración del puerto
-const port =  5001;
+const port =  process.env.PORT_PEDIDO
+
 app.listen(port, () => {
   console.log(`Microservicio de pedidos corriendo en http://localhost:${port}`);
 });
