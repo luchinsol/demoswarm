@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    image: luis101590/api-gateway:latest  # Imagen de la API Gateway
+    ports:
+      - "3000:3000"  # Exponer puerto 3000 en el host
+    networks:
+      - app-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  pedido-service:
+    image: luis101590/pedido-service:latest  # Imagen del microservicio de pedidos
+    ports:
+      - "5001:5001"  # Exponer puerto 5001 en el host
+    networks:
+      - app-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+networks:
+  app-network:
+    driver: overlay  # Red para la comunicación entre los contenedores
